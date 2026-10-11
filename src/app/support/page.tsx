@@ -86,7 +86,7 @@ export default function SupportPage() {
         <SectionTitle en="MESSAGE" ja="応援してくださる皆さまへ" />
         <div className="flex flex-col gap-6 md:flex-row md:items-start">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/face.png" alt="白石篤司" className="size-24 shrink-0 rounded-full border-4 border-aka" />
+          <img src="/images/face.png" alt="白石篤司" className="size-24 shrink-0" />
           <div className="relative rounded-2xl bg-ink/[0.04] p-6 leading-loose">
             {cf.message.map((p, i) => (
               <p key={i} className={i ? "mt-4" : ""}>

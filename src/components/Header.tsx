@@ -12,7 +12,7 @@ export function Header() {
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:h-16">
         <Link href="/" className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/face.png" alt="" className="size-9 rounded-full" />
+          <img src="/images/face.png" alt="" className="size-10" />
           <span className="leading-tight">
             <span className="block text-[15px] font-black tracking-wider">白石 篤司</span>
             <span className="block text-[10px] font-bold tracking-[0.2em] text-aka">40歳からの挑戦</span>

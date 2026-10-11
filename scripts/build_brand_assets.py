@@ -1,4 +1,4 @@
-"""favicon（白石篤司の顔写真）と OGP 画像（public/ogp-shiraishi-2026.jpg）を生成する。
+"""favicon（白石篤司と息子たちの写真）と OGP 画像（public/ogp-shiraishi-2026.jpg）を生成する。
 
 使い方: python3 scripts/build_brand_assets.py
 フォント（Noto Sans JP / Oswald）は Google Fonts から ~/.cache/atsushi-fonts に取得する。
@@ -32,28 +32,15 @@ def font(family, weight):
 
 
 def favicon():
-    face = Image.open(IMG / "oyako.jpg").convert("RGB").crop((0, 150, 440, 590))
+    """家族写真（icon-photo.jpg）を切り抜かず、そのまま正方形で使う"""
+    photo = Image.open(IMG / "icon-photo.jpg").convert("RGB")
+    side = min(photo.size)
+    photo = ImageOps.fit(photo, (side, side), centering=(0.5, 0.5))
     for size, name in [(512, "icon.png"), (180, "apple-icon.png")]:
-        im = face.resize((size, size), Image.LANCZOS)
-        # 赤い輪で縁取った丸アイコン
-        mask = Image.new("L", (size * 4, size * 4), 0)
-        ImageDraw.Draw(mask).ellipse((0, 0, size * 4 - 1, size * 4 - 1), fill=255)
-        mask = mask.resize((size, size), Image.LANCZOS)
-        out = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-        out.paste(im, (0, 0), mask)
-        ring = Image.new("RGBA", (size * 4, size * 4), (0, 0, 0, 0))
-        w = int(size * 4 * 0.045)
-        ImageDraw.Draw(ring).ellipse((0, 0, size * 4 - 1, size * 4 - 1), outline=AKA + (255,), width=w)
-        out.alpha_composite(ring.resize((size, size), Image.LANCZOS))
-        if name == "apple-icon.png":  # iOS は透過非対応なので黒背景
-            bg = Image.new("RGBA", (size, size), INK + (255,))
-            bg.alpha_composite(out)
-            out = bg
-        out.save(APP / name)
+        photo.resize((size, size), Image.LANCZOS).save(APP / name)
     # favicon.ico（16/32/48）
-    small = Image.open(APP / "icon.png")
-    small.save(APP / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
-    small.resize((128, 128), Image.LANCZOS).save(IMG / "face.png")  # ヘッダーのロゴ用
+    photo.convert("RGBA").resize((256, 256), Image.LANCZOS).save(APP / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
+    photo.resize((160, 160), Image.LANCZOS).save(IMG / "face.png")  # ヘッダーのロゴ用
 
 
 def ogp():
