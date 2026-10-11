@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  /* 空手道モチーフ：白＝道着 / 黒＝黒帯 / 赤＝赤コーナー / 青＝青コーナー */
+  --color-ink: #111111;
+  --color-aka: #d7261e;
+  --color-ao: #1d4ed8;
+  --color-dogi: #ffffff;
+  --font-sans: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-dogi);
+  color: var(--color-ink);
+  font-feature-settings: "palt";
+}
