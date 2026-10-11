@@ -60,7 +60,10 @@ def photo_frames(img_path, size, dur, focus_y=0.3, zoom=(1.0, 1.12)):
 def match_frames(src, start, dur, size, crop_h, slow=1.0, push=0.1):
     """赤選手を追尾してズームした映像。slow>1 でスローモーション（フレーム補間ブレンド）"""
     W, H = size
-    pts, (sw, sh) = track(src, start, dur, FPS)
+    # 短いカットでも追尾が安定するよう、少し前から追尾して先頭を捨てる
+    lead = min(1.0, start)
+    pts, (sw, sh) = track(src, start - lead, dur + lead, FPS)
+    pts = pts[int(round(lead * FPS)) :]
     cap = cv2.VideoCapture(src)
     cap.set(cv2.CAP_PROP_POS_MSEC, start * 1000)
     raw = []
@@ -94,19 +97,26 @@ def build(fmt, srcs, out_path):
     V1, V2, V3 = srcs
     img = ROOT / "public/images"
     # (種類, 引数...) — 合計約30秒
-    # 試合映像の時刻は「赤選手周辺の動き量」が大きい場面（攻防の瞬間）から選定
+    # 1本目の試合映像（V1）を中心に、赤帯＝白石篤司の突き・蹴り・崩し（こかし）の瞬間を詰め合わせ
+    # ("match", 動画, 開始秒, 出力秒数, スロー倍率)
     plan = [
-        ("photo", img / "kumite.jpg", 2.5, 0.15),
-        ("match", V3, 47.0, 3.0, 1.0),
-        ("match", V2, 52.7, 2.4, 2.0),   # 攻防 → スロー
-        ("match", V3, 79.5, 2.5, 1.0),
-        ("photo", img / "oyako.jpg", 2.0, 0.25),
-        ("match", V2, 23.0, 3.0, 1.0),
-        ("match", V3, 82.8, 2.0, 2.0),
-        ("match", V1, 28.5, 2.6, 1.0),
-        ("match", V2, 90.5, 2.5, 1.0),
-        ("match", V3, 24.0, 2.5, 1.0),
-        ("match", V2, 115.5, 2.0, 2.0),
+        ("photo", img / "kumite.jpg", 2.0, 0.15),
+        ("match", V1, 26.3, 1.2, 1.0),   # 踏み込み
+        ("match", V1, 35.9, 1.4, 1.0),   # 刻み突き → 蹴り
+        ("match", V1, 36.3, 1.8, 2.0),   #   └ スローで見せる
+        ("match", V2, 25.0, 1.4, 1.0),   # 飛び込み
+        ("match", V1, 47.2, 1.0, 1.0),   # 突き
+        ("match", V2, 52.1, 2.0, 2.5),   # 蹴り（スロー）
+        ("match", V1, 39.2, 0.9, 1.0),   # 攻め込み
+        ("match", V3, 47.1, 1.3, 1.0),   # 打ち合い
+        ("match", V1, 66.3, 0.9, 1.0),   # 踏み込み
+        ("match", V3, 79.9, 1.2, 1.0),   # 打ち合い
+        ("match", V2, 93.9, 0.8, 1.0),   # 踏み込み突き
+        ("match", V2, 53.2, 2.6, 1.0),   # 攻防 → 倒れ込み
+        ("match", V1, 49.5, 1.4, 1.0),   # 組み合い →
+        ("match", V1, 50.0, 4.0, 2.0),   #   こかし（スローでクライマックス）
+        ("match", V1, 52.0, 1.0, 1.0),   # 立ち上がる白石
+        ("photo", img / "oyako.jpg", 2.1, 0.25),
         ("photo", img / "kumite.jpg", 3.0, 0.12),
     ]
     total_sec = sum(seg[2] if seg[0] == "photo" else seg[3] for seg in plan)
