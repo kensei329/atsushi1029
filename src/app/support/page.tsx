@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
+import { Gallery } from "@/components/Gallery";
 import { Marquee } from "@/components/Marquee";
 import { SectionTitle } from "@/components/ui";
 import { crowdfunding as cf } from "@/data/crowdfunding";
 import { profile } from "@/data/profile";
 import { hasPublicFile } from "@/lib/images";
 
-const friends = [
-  { src: "/images/gallery/with-senpai.jpg", caption: "空手の大先輩と", tilt: "-rotate-3" },
-  { src: "/images/gallery/with-friend.jpg", caption: "仲間とファイティングポーズ", tilt: "rotate-2" },
-  { src: "/images/gallery/shiroya.jpg", caption: "「白屋」の仲間と", tilt: "-rotate-1" },
-  { src: "/images/gallery/taekwondo-kids.jpg", caption: "息子たちも応援団！", tilt: "rotate-3" },
+import type { Photo } from "@/data/gallery";
+
+const friends: Photo[] = [
+  { src: "/images/gallery/with-senpai.jpg", alt: "空手大会の会場で大先輩とファイティングポーズ", caption: "空手の大先輩と", tag: "空手" },
+  { src: "/images/gallery/with-friend.jpg", alt: "夜の屋上で仲間とファイティングポーズ", caption: "仲間とファイティングポーズ", tag: "仲間" },
+  { src: "/images/gallery/shiroya.jpg", alt: "田んぼの前で「白屋」の袋を持つ白石篤司と仲間", caption: "「白屋」の仲間と", tag: "仲間" },
+  { src: "/images/gallery/taekwondo-kids.jpg", alt: "テコンドー道場で息子たちと笑顔の白石篤司", caption: "息子たちも応援団！", tag: "家族" },
 ];
 
 export const metadata: Metadata = {
@@ -98,17 +101,7 @@ export default function SupportPage() {
           />
           <div className="relative mx-auto max-w-6xl px-4 py-14 md:py-20">
             <SectionTitle en="TEAM SHIRAISHI" ja="いっしょに戦う仲間たち" accent="ao" />
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
-              {friends
-                .filter((f) => hasPublicFile(f.src))
-                .map((f) => (
-                  <li key={f.src} className={`bg-white p-2 pb-3 shadow-[0_6px_20px_rgba(0,0,0,0.15)] transition-transform hover:rotate-0 hover:scale-105 ${f.tilt}`}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={f.src} alt={f.caption} loading="lazy" className="aspect-square w-full object-cover object-top" />
-                    <p className="mt-2 font-hand text-[13px] font-bold">{f.caption}</p>
-                  </li>
-                ))}
-            </ul>
+            <Gallery photos={friends.filter((f) => hasPublicFile(f.src))} filter={false} columns="md:grid-cols-4" />
             <p className="mt-10 text-center text-lg font-black">
               あなたも <span className="text-aka">TEAM SHIRAISHI</span> の一員に。押忍！
             </p>
