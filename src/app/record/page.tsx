@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
+import { ogp } from "@/lib/seo";
 import { PageHero, SectionTitle } from "@/components/ui";
 import { VideoCard } from "@/components/VideoCard";
 import { gradings, kickboxingCareer } from "@/data/records";
 import { formatDate, getKarateResults, getVideos } from "@/lib/content";
 
-export const metadata: Metadata = { title: "戦績" };
+export const metadata: Metadata = {
+  title: "戦績",
+  description: "空手道復帰後の大会結果・昇段審査、そしてキックボクサー時代の記録。",
+  ...ogp({ title: "戦績 | 白石篤司 40歳からの挑戦", description: "空手道復帰後の大会結果・昇段審査、そしてキックボクサー時代の記録。", path: "/record" }),
+};
 
 export default async function RecordPage() {
   const [results, videos] = await Promise.all([getKarateResults(), getVideos()]);

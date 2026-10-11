@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogp } from "@/lib/seo";
 import { Gallery } from "@/components/Gallery";
 import { PageHero, SectionTitle } from "@/components/ui";
 import { photos } from "@/data/gallery";
@@ -7,7 +8,11 @@ import { ageAt, profile } from "@/data/profile";
 import { chapters, storyEpilogue } from "@/data/story";
 import { formatDate } from "@/lib/content";
 
-export const metadata: Metadata = { title: "プロフィール" };
+export const metadata: Metadata = {
+  title: "プロフィール",
+  description: "元プロキックボクサー白石篤司のプロフィールと、40歳からの挑戦の物語。",
+  ...ogp({ title: "プロフィール | 白石篤司 40歳からの挑戦", description: "元プロキックボクサー白石篤司のプロフィールと、40歳からの挑戦の物語。", path: "/profile" }),
+};
 
 export default function ProfilePage() {
   const offMat = photos.filter((p) => (p.tag === "仕事" || p.tag === "仲間" || p.tag === "家族") && hasPublicFile(p.src));

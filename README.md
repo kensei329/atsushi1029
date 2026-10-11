@@ -65,8 +65,14 @@ BGM は Web サイトでの利用が許諾された音源のみ使用してく�
 
 ```bash
 pip install pillow
-python3 scripts/build_brand_assets.py   # src/app/icon.png, apple-icon.png, favicon.ico, opengraph-image.jpg を生成
+python3 scripts/build_brand_assets.py   # src/app/icon.png, apple-icon.png, favicon.ico, public/ogp.jpg を生成
 ```
+
+OGP は全ページ・全サービス（LINE / X / Facebook / note / Slack / Discord 等）で `public/ogp.jpg` に統一しています（`src/lib/seo.ts`）。
+画像を差し替えたら `ogImage.url` の `?v=` を上げると、各サービスのキャッシュを回避しやすくなります。
+本番URLが変わる場合は環境変数 `NEXT_PUBLIC_SITE_URL` を設定してください（未設定時は `https://atsushi1029.vercel.app`）。
+
+ヘッダーの「共有」ボタンは `https://atsushi1029.vercel.app/?openExternalBrowser=1`（LINE で外部ブラウザを開く URL）を共有します。
 
 ## 未確定・今後の追加候補
 

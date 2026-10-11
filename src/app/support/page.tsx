@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogp } from "@/lib/seo";
 import { Gallery } from "@/components/Gallery";
 import { Marquee } from "@/components/Marquee";
 import { SectionTitle } from "@/components/ui";
@@ -18,6 +19,11 @@ const friends: Photo[] = [
 export const metadata: Metadata = {
   title: "Karatedo クラウドファンディング",
   description: "元プロキックボクサー白石篤司の、全日本空手道連盟マスターズ優勝への挑戦を応援するクラウドファンディング。",
+  ...ogp({
+    title: "Karatedo クラウドファンディング | 白石篤司 40歳からの挑戦",
+    description: "元プロキックボクサー白石篤司の、全日本空手道連盟マスターズ優勝への挑戦を応援するクラウドファンディング。",
+    path: "/support",
+  }),
 };
 
 const yen = (n: number) => `¥${n.toLocaleString("ja-JP")}`;

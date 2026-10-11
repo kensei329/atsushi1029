@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BottomNav } from "@/components/BottomNav";
 import { Header } from "@/components/Header";
 import { profile } from "@/data/profile";
+import { ogp, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 const noto = Noto_Sans_JP({ subsets: ["latin"], weight: ["400", "700", "900"], variable: "--font-noto", display: "swap" });
@@ -11,19 +12,18 @@ const oswald = Oswald({ subsets: ["latin"], weight: ["600", "700"], variable: "-
 const klee = Klee_One({ subsets: ["latin"], weight: ["600"], variable: "--font-klee", display: "swap", preload: false });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "白石篤司 40歳からの挑戦 〜全日本空手道連盟マスターズ優勝への軌跡〜",
     template: "%s | 白石篤司 40歳からの挑戦",
   },
   description:
     "元プロキックボクサー白石篤司が、40歳から空手道に復帰し、全日本空手道連盟マスターズ優勝を目指す挑戦の記録。試合動画・戦績・ニュースを発信します。",
-  openGraph: {
-    type: "website",
-    locale: "ja_JP",
-    siteName: "白石篤司 40歳からの挑戦",
-  },
-  twitter: { card: "summary_large_image", creator: "@tm040103" },
+  ...ogp({
+    title: "白石篤司 40歳からの挑戦 〜全日本空手道連盟マスターズ優勝への軌跡〜",
+    description:
+      "元プロキックボクサー白石篤司が、40歳から空手道に復帰し、全日本空手道連盟マスターズ優勝を目指す挑戦の記録。試合動画・戦績・ニュースを発信します。",
+  }),
 };
 
 export const viewport: Viewport = {

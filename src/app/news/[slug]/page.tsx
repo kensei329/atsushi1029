@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MoreLink } from "@/components/ui";
+import { ogp } from "@/lib/seo";
 import { formatDate, getNews, getNewsList } from "@/lib/content";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: item.title,
     description: item.excerpt,
-    openGraph: item.image ? { images: [item.image.src] } : undefined,
+    ...ogp({ title: item.title, description: item.excerpt, path: `/news/${item.slug}`, type: "article" }),
   };
 }
 

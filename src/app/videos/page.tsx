@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
+import { ogp } from "@/lib/seo";
 import { PageHero, SectionTitle } from "@/components/ui";
 import { VideoCard } from "@/components/VideoCard";
 import type { VideoCategory } from "@/data/types";
 import { getVideos } from "@/lib/content";
 
-export const metadata: Metadata = { title: "試合動画" };
+export const metadata: Metadata = {
+  title: "試合動画",
+  description: "西村祭りの試合映像と、キックボクシング時代の映像。赤（AKA）が白石篤司。",
+  ...ogp({ title: "試合動画 | 白石篤司 40歳からの挑戦", description: "西村祭りの試合映像と、キックボクシング時代の映像。赤（AKA）が白石篤司。", path: "/videos" }),
+};
 
 const sections: { category: VideoCategory; en: string; ja: string; accent: "aka" | "ao" }[] = [
   { category: "match", en: "MATCH", ja: "大会の試合映像", accent: "aka" },

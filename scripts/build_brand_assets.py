@@ -1,4 +1,4 @@
-"""favicon（白石篤司の顔写真）と OGP 画像を生成する。
+"""favicon（白石篤司の顔写真）と OGP 画像（public/ogp.jpg）を生成する。
 
 使い方: python3 scripts/build_brand_assets.py
 フォント（Noto Sans JP / Oswald）は Google Fonts から ~/.cache/atsushi-fonts に取得する。
@@ -93,8 +93,8 @@ def ogp():
     # 下端の赤青ライン
     d.rectangle((0, H - 10, W // 2, H), fill=AKA)
     d.rectangle((W // 2, H - 10, W, H), fill=AO)
-    base.save(APP / "opengraph-image.jpg", quality=90)
-    base.save(APP / "twitter-image.jpg", quality=90)
+    # LINE / X / Facebook / note などすべての OGP で共通に使う（src/lib/seo.ts）
+    base.save(ROOT / "public/ogp.jpg", quality=90, optimize=True, progressive=True)
 
 
 if __name__ == "__main__":

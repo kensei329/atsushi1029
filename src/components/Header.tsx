@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { isActive, navItems } from "./nav";
+import { ShareButton } from "./ShareButton";
 
 export function Header() {
   const pathname = usePathname();
@@ -17,6 +18,9 @@ export function Header() {
             <span className="block text-[10px] font-bold tracking-[0.2em] text-aka">40歳からの挑戦</span>
           </span>
         </Link>
+        <div className="md:hidden">
+          <ShareButton />
+        </div>
         <nav aria-label="メインメニュー" className="hidden items-center gap-2 md:flex">
           <ul className="flex gap-1">
             {navItems.map((item) => {
@@ -37,6 +41,7 @@ export function Header() {
               );
             })}
           </ul>
+          <ShareButton />
           <Link
             href="/support"
             className="ml-2 rounded-full bg-aka px-4 py-2 text-sm font-black tracking-wider text-white shadow transition-transform hover:-rotate-2 hover:scale-105"
