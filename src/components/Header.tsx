@@ -17,12 +17,6 @@ export function Header() {
             <span className="block text-[10px] font-bold tracking-[0.2em] text-aka">40歳からの挑戦</span>
           </span>
         </Link>
-        <Link
-          href="/support"
-          className="animate-float rounded-full bg-aka px-3 py-1.5 text-[11px] font-black tracking-wider text-white shadow md:hidden"
-        >
-          応援する！
-        </Link>
         <nav aria-label="メインメニュー" className="hidden items-center gap-2 md:flex">
           <ul className="flex gap-1">
             {navItems.map((item) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { heroVideo } from "@/data/hero";
 
 /**
@@ -8,7 +8,10 @@ import { heroVideo } from "@/data/hero";
  * 音声付き自動再生を試み、ブラウザに止められた場合はミュートで再生して
  * 訪問者がページに最初に触れた瞬間に音声付きで頭から再生し直す。
  */
-export function HeroVideo() {
+type Sound = { muted: boolean; toggle: () => void; buttonRef: React.RefObject<HTMLButtonElement | null> };
+const SoundContext = createContext<Sound | null>(null);
+
+export function HeroVideo({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLVideoElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [src, setSrc] = useState<typeof heroVideo.mobile | null>(null);
@@ -73,7 +76,7 @@ export function HeroVideo() {
   };
 
   return (
-    <>
+    <SoundContext.Provider value={{ muted, toggle: toggleSound, buttonRef }}>
       {src && (
         <video
           key={src.src}
@@ -89,20 +92,29 @@ export function HeroVideo() {
           aria-label="白石篤司 試合ハイライト動画"
         />
       )}
+      {children}
       {heroVideo.hasAudio && (
-        <>
-          <button
-            ref={buttonRef}
-            type="button"
-            onClick={toggleSound}
-            className="absolute right-4 top-4 z-10 rounded-full bg-ink/70 px-3 py-2 text-xs font-bold text-white shadow-lg backdrop-blur transition-transform hover:scale-105"
-            aria-pressed={!muted}
-          >
-            {muted ? "🔇 タップで音が出ます" : "🔊 ミュート"}
-          </button>
-          <p className="absolute bottom-2 right-4 z-10 text-[10px] text-white/60">{heroVideo.musicCredit}</p>
-        </>
+        <p className="pointer-events-none absolute bottom-2 right-4 z-10 text-[10px] text-white/60">{heroVideo.musicCredit}</p>
       )}
-    </>
+    </SoundContext.Provider>
+  );
+}
+
+/** 音声オン／オフ（ヒーロー下部の、親指が届く位置に置く） */
+export function SoundButton() {
+  const sound = useContext(SoundContext);
+  if (!sound || !heroVideo.hasAudio) return null;
+  return (
+    <button
+      ref={sound.buttonRef}
+      type="button"
+      onClick={sound.toggle}
+      className="inline-flex h-12 items-center gap-1 rounded-full bg-white/15 px-4 text-sm font-black text-white backdrop-blur active:scale-95"
+      aria-pressed={!sound.muted}
+      aria-label={sound.muted ? "音を出す" : "ミュート"}
+    >
+      <span aria-hidden>{sound.muted ? "🔇" : "🔊"}</span>
+      <span>{sound.muted ? "音を出す" : "音あり"}</span>
+    </button>
   );
 }

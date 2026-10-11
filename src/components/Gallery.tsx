@@ -16,13 +16,13 @@ export function Gallery({ photos, filter = true, columns = "md:grid-cols-3 lg:gr
   return (
     <>
       {filter && tags.length > 2 && (
-        <div className="mb-8 flex flex-wrap gap-2">
+        <div className="-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:mx-0 md:mb-8 md:flex-wrap md:px-0 [&::-webkit-scrollbar]:hidden">
           {tags.map((t) => (
             <button
               key={t}
               type="button"
               onClick={() => setTag(t)}
-              className={`rounded-full px-4 py-1.5 text-xs font-bold transition-colors ${
+              className={`shrink-0 rounded-full px-5 py-2.5 text-sm font-bold transition-colors ${
                 tag === t ? "bg-aka text-white" : "bg-ink/5 text-ink/70 hover:bg-ink/10"
               }`}
             >
@@ -31,9 +31,12 @@ export function Gallery({ photos, filter = true, columns = "md:grid-cols-3 lg:gr
           ))}
         </div>
       )}
-      <ul className={`grid grid-cols-2 gap-x-4 gap-y-8 ${columns}`}>
+      {/* スマホ：左右スワイプで送るカルーセル / PC：グリッド */}
+      <ul
+        className={`-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-[14%] py-6 [scrollbar-width:none] md:mx-0 md:grid md:snap-none md:gap-x-4 md:gap-y-8 md:overflow-visible md:px-0 md:py-0 [&::-webkit-scrollbar]:hidden ${columns}`}
+      >
         {list.map((p, i) => (
-          <li key={p.src}>
+          <li key={p.src} className="w-[72%] shrink-0 snap-center md:w-auto">
             <button
               type="button"
               onClick={() => setOpen(i)}
@@ -47,6 +50,8 @@ export function Gallery({ photos, filter = true, columns = "md:grid-cols-3 lg:gr
           </li>
         ))}
       </ul>
+
+      <p className="mt-1 text-center text-xs font-bold text-ink/45 md:hidden">← 左右にスワイプ ／ タップで拡大 →</p>
 
       {open !== null && <Lightbox photos={list} start={open} onClose={() => setOpen(null)} />}
     </>

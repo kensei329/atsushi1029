@@ -37,13 +37,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-dvh antialiased">
         <Header />
         <main className="pb-24 md:pb-0">{children}</main>
-        <footer className="bg-ink pb-24 text-white/70 md:pb-0">
+        <footer className="bg-ink pb-40 text-white/70 md:pb-0">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 text-sm md:flex-row md:items-center md:justify-between">
             <div>
               <p className="font-black tracking-wider text-white">白石 篤司</p>
               <p className="mt-1 text-xs">{profile.dojo.name}所属 / {profile.rank}</p>
             </div>
-            <div className="flex flex-wrap gap-4 text-xs font-bold">
+            <div className="grid grid-cols-2 gap-2 text-sm font-bold md:flex md:flex-wrap md:gap-4 md:text-xs [&>a]:rounded-md [&>a]:bg-white/5 [&>a]:px-4 [&>a]:py-3 md:[&>a]:bg-transparent md:[&>a]:p-0">
               {profile.sns.map((s) => (
                 <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer" className="hover:text-white">
                   {s.label} {s.handle}

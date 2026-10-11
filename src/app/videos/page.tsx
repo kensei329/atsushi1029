@@ -20,11 +20,11 @@ export default async function VideosPage() {
   return (
     <>
       <PageHero en="VIDEO" ja="試合動画" lead="西村祭りの試合映像と、キックボクシング時代の映像。赤（AKA）が白石篤司です。" />
-      <nav className="sticky top-14 z-30 border-b border-ink/10 bg-white/95 backdrop-blur md:top-16">
+      <nav className="border-b border-ink/10 bg-white/95 backdrop-blur md:sticky md:top-16 md:z-30">
         <ul className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 py-3 text-xs font-bold">
           {visible.map((s) => (
             <li key={s.category} className="shrink-0">
-              <a href={`#${s.category}`} className="block rounded-full border border-ink/20 px-3 py-1.5 hover:border-ink">
+              <a href={`#${s.category}`} className="block rounded-full border border-ink/20 px-5 py-2.5 text-sm hover:border-ink">
                 {s.ja.replace(/（.*）/, "")}
               </a>
             </li>

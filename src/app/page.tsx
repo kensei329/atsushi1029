@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Gallery } from "@/components/Gallery";
-import { HeroVideo } from "@/components/HeroVideo";
+import { HeroVideo, SoundButton } from "@/components/HeroVideo";
 import { Marquee } from "@/components/Marquee";
 import { SupportBanner } from "@/components/SupportBanner";
 import { MoreLink, NewsItem, SectionTitle } from "@/components/ui";
@@ -28,7 +28,7 @@ export default async function Home() {
     <>
       {/* Hero：赤選手（白石篤司）を追尾したハイライト動画 */}
       <section className="relative h-[calc(100svh-3.5rem-4rem)] min-h-[560px] overflow-hidden bg-ink text-white md:h-[calc(100svh-4rem)] md:max-h-[820px]">
-        <HeroVideo />
+        <HeroVideo>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-ink/30 md:bg-gradient-to-r md:from-ink/90 md:via-ink/30 md:to-transparent" />
         <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-end px-4 pb-8 md:justify-center md:pb-0">
           <p className="font-display text-xs tracking-[0.25em] text-aka md:text-sm">FORMER PRO KICKBOXER × KARATE-DO</p>
@@ -42,18 +42,17 @@ export default async function Home() {
           <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 drop-shadow md:text-base">
             元プロキックボクサー・白石篤司。目指すは<strong className="text-white">全日本空手道連盟マスターズ優勝</strong>。
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/profile" className="rounded-full bg-aka px-5 py-3 text-sm font-black tracking-wider shadow-lg hover:bg-aka/90">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Link
+              href="/profile"
+              className="inline-flex h-12 items-center rounded-full bg-aka px-6 text-sm font-black tracking-wider shadow-lg hover:bg-aka/90"
+            >
               挑戦の物語を読む
             </Link>
-            <Link
-              href="/support"
-              className="rounded-full border-2 border-white px-5 py-3 text-sm font-black tracking-wider backdrop-blur-sm hover:bg-white hover:text-ink"
-            >
-              応援する！
-            </Link>
+            <SoundButton />
           </div>
         </div>
+        </HeroVideo>
       </section>
 
       <Marquee />
