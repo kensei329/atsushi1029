@@ -59,10 +59,10 @@ def favicon():
 def ogp():
     W, H = 1200, 630
     base = Image.new("RGB", (W, H), INK)
-    # 右側：試合前の写真（赤帯・赤サポーター）
-    photo = Image.open(IMG / "kumite.jpg").convert("RGB")
-    pw = 640
-    photo = ImageOps.fit(photo, (pw, H), centering=(0.55, 0.3))
+    # 右側：試合前の写真（赤い拳サポーター・赤帯）
+    photo = Image.open(IMG / "ogp-photo.jpg").convert("RGB")
+    pw = 700
+    photo = ImageOps.fit(photo, (pw, H), centering=(0.5, 0.3))
     photo = Image.blend(photo, Image.new("RGB", photo.size, INK), 0.08)
     base.paste(photo, (W - pw, 0))
     # 左から黒のグラデーションで写真に溶け込ませる
