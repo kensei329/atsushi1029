@@ -42,7 +42,7 @@ export function ShareButton() {
       <button
         type="button"
         onClick={onShare}
-        className="inline-flex h-10 items-center gap-1.5 rounded-full border-2 border-ink px-4 text-sm font-black active:scale-95 md:h-9"
+        className="inline-flex h-10 items-center gap-1.5 rounded-full border-2 border-white px-4 text-sm font-black text-white active:scale-95 md:h-9"
         aria-label="このサイトを共有"
       >
         <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>

@@ -24,7 +24,7 @@ export function BottomNav() {
       {showSupport && (
         <Link
           href="/support"
-          className="fixed right-3 z-50 flex h-12 items-center gap-1 rounded-full bg-aka px-5 text-sm font-black tracking-wider text-white shadow-[0_6px_20px_rgba(215,38,30,0.45)] active:scale-95 md:hidden"
+          className="fixed right-3 z-50 flex h-12 items-center gap-1 rounded-full border-2 border-white bg-aka px-5 text-sm font-black tracking-wider text-white shadow-[0_6px_20px_rgba(215,38,30,0.45)] active:scale-95 md:hidden"
           style={{ bottom: "calc(4rem + env(safe-area-inset-bottom) + 12px)" }}
         >
           押忍！応援する
@@ -32,7 +32,7 @@ export function BottomNav() {
       )}
     <nav
       aria-label="メインメニュー"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-ink/10 bg-white/95 backdrop-blur md:hidden"
+      className="obi fixed inset-x-0 bottom-0 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.35)] md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="grid grid-cols-5">
@@ -44,11 +44,11 @@ export function BottomNav() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={`relative flex h-16 flex-col items-center justify-center gap-1 text-[10px] font-bold tracking-wide transition-colors ${
-                  active ? "text-aka" : "text-ink/55 active:text-ink"
+                  active ? "kakomi text-[11px] font-black" : "text-white/70 active:text-white"
                 }`}
               >
                 {active && <span className="absolute inset-x-4 top-0 h-[3px] rounded-b bg-aka" />}
-                <Icon name={item.icon} className="size-6" />
+                <Icon name={item.icon} className={active ? "kakomi-icon size-6" : "size-6"} />
                 {item.label}
               </Link>
             </li>

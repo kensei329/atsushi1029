@@ -40,3 +40,26 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* 黒帯風：黒地にうっすら縫い目（ステッチ）を2本 */
+.obi {
+  background-color: var(--color-ink);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0 7px, transparent 7px 13px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0 7px, transparent 7px 13px);
+  background-size: 100% 1px, 100% 1px;
+  background-position: 0 5px, 0 calc(100% - 5px);
+  background-repeat: repeat-x;
+}
+
+/* 強調：赤文字を白で縁取る囲み文字 */
+.kakomi {
+  color: var(--color-aka);
+  text-shadow:
+    1.5px 0 0 #fff, -1.5px 0 0 #fff, 0 1.5px 0 #fff, 0 -1.5px 0 #fff,
+    1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+}
+.kakomi-icon {
+  color: var(--color-aka);
+  filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff);
+}
