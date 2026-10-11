@@ -56,7 +56,9 @@ python3 scripts/build_highlight.py 試合1.mp4 試合2.mp4 試合3.mp4 [--bgm �
 ```
 
 BGM は Web サイトでの利用が許諾された音源のみ使用してください（市販曲・TV番組のテーマ曲などは不可）。
-BGM を合成したら `src/data/hero.ts` の `hasAudio` を `true` にするとミュート解除ボタンが表示されます。
+`src/data/hero.ts` の `hasAudio` が `true` のときミュート解除ボタンとクレジット（`musicCredit`）を表示します。
+現在の BGM は葉加瀬太郎「情熱大陸」（権利者・JASRAC の許諾済みとのこと）。ブラウザの仕様上、自動再生はミュートで始まり、
+「音を出して見る」ボタンで頭から音付き再生されます。
 
 ## favicon / OGP
 

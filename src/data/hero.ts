@@ -3,7 +3,8 @@ export const heroVideo = {
   mobile: { src: "/videos/hero-highlight-v.mp4", poster: "/images/hero-highlight-v.jpg" },
   desktop: { src: "/videos/hero-highlight-h.mp4", poster: "/images/hero-highlight-h.jpg" },
   // 許諾済み BGM を合成したら true にするとミュート解除ボタンを表示
-  hasAudio: false,
+  hasAudio: true,
+  musicCredit: "BGM：葉加瀬太郎「情熱大陸」",
   // 動画の再生位置（秒）に合わせて切り替わるキャプション
   captions: [
     { from: 0, text: "元プロキックボクサー、白石篤司。" },

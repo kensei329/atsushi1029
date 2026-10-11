@@ -20,6 +20,20 @@ export function HeroVideo() {
     return () => mq.removeEventListener("change", pick);
   }, []);
 
+  // React の muted 属性は初期値しか反映されないため、DOM プロパティを直接切り替える
+  const toggleSound = () => {
+    const v = ref.current;
+    if (!v) return;
+    const next = !muted;
+    v.muted = next;
+    if (!next) {
+      v.currentTime = 0;
+      v.volume = 0.8;
+      void v.play();
+    }
+    setMuted(next);
+  };
+
   const onTime = () => {
     const t = ref.current?.currentTime ?? 0;
     let idx = 0;
@@ -59,12 +73,15 @@ export function HeroVideo() {
       {heroVideo.hasAudio && (
         <button
           type="button"
-          onClick={() => setMuted((m) => !m)}
-          className="absolute right-4 top-4 z-10 rounded-full bg-ink/70 px-3 py-2 text-xs font-bold text-white backdrop-blur"
+          onClick={toggleSound}
+          className="absolute right-4 top-4 z-10 rounded-full bg-ink/70 px-3 py-2 text-xs font-bold text-white shadow-lg backdrop-blur transition-transform hover:scale-105"
           aria-pressed={!muted}
         >
-          {muted ? "🔇 音を出す" : "🔊 ミュート"}
+          {muted ? "🔇 音を出して見る" : "🔊 ミュート"}
         </button>
+      )}
+      {heroVideo.hasAudio && !muted && (
+        <p className="absolute bottom-2 right-4 z-10 text-[10px] text-white/60">{heroVideo.musicCredit}</p>
       )}
     </>
   );
