@@ -65,14 +65,19 @@ BGM は Web サイトでの利用が許諾された音源のみ使用してく�
 
 ```bash
 pip install pillow
-python3 scripts/build_brand_assets.py   # src/app/icon.png, apple-icon.png, favicon.ico, public/ogp.jpg を生成
+python3 scripts/build_brand_assets.py   # src/app/icon.png, apple-icon.png, favicon.ico, public/ogp-shiraishi-2026.jpg を生成
 ```
 
-OGP は全ページ・全サービス（LINE / X / Facebook / note / Slack / Discord 等）で `public/ogp.jpg` に統一しています（`src/lib/seo.ts`）。
-画像を差し替えたら `ogImage.url` の `?v=` を上げると、各サービスのキャッシュを回避しやすくなります。
+OGP は全ページ・全サービス（LINE / X / Facebook / note / Slack / Discord 等）で `public/ogp-shiraishi-2026.jpg` に統一しています（`src/lib/seo.ts`）。
+
+LINE は一度読み込んだURLのプレビューを長期間キャッシュします（画像だけの変更は再取得まで約2週間）。公式のキャッシュ削除ツール Page Poker は提供終了しています。
+OGP を変えたときは、次の2つで「LINE がまだ読んでいないURL」にすると確実に新しいプレビューになります。
+
+1. OGP 画像のファイル名を変える（`ogImage.url` とスクリプトの出力先）
+2. 共有URL（`shareUrl`）の `v=` を上げる
 本番URLが変わる場合は環境変数 `NEXT_PUBLIC_SITE_URL` を設定してください（未設定時は `https://atsushi1029.vercel.app`）。
 
-ヘッダーの「共有」ボタンは `https://atsushi1029.vercel.app/?openExternalBrowser=1`（LINE で外部ブラウザを開く URL）を共有します。
+ヘッダーの「共有」ボタンは `https://atsushi1029.vercel.app/?openExternalBrowser=1&v=2`（LINE で外部ブラウザを開く URL）を共有します。
 
 ## 未確定・今後の追加候補
 

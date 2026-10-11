@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 
 export const siteName = "白石篤司 40歳からの挑戦";
 
-// 共有ボタンで送るURL（LINE のアプリ内ブラウザではなく外部ブラウザで開かせる）
-export const shareUrl = "https://atsushi1029.vercel.app/?openExternalBrowser=1";
+// 共有ボタンで送るURL（openExternalBrowser=1 で LINE のアプリ内ブラウザではなく外部ブラウザで開く）。
+// LINE はURLごとにプレビュー（OGP）を長期間キャッシュし、公式の削除ツール（Page Poker）も提供終了しているため、
+// OGP を変えたときは v を上げて「LINE がまだ読んでいないURL」にすると、新しいプレビューが表示される。
+export const shareUrl = "https://atsushi1029.vercel.app/?openExternalBrowser=1&v=2";
 export const shareText = "元プロキックボクサー白石篤司、40歳からの挑戦。全日本空手道連盟マスターズ優勝を目指す！";
 
 // OGP 画像などの絶対URLの基準。未設定だと localhost になり、LINE・X 等で画像が表示されない
@@ -13,10 +15,10 @@ export const siteUrl =
 
 /**
  * 全ページ・全サービス（LINE / X / Facebook / note / Slack / Discord 等）共通の OGP 画像。
- * 画像を差し替えたら v を上げると、各サービスのキャッシュを回避しやすい。
+ * 画像を差し替えるときはファイル名ごと変える（各サービスは画像URL単位でもキャッシュするため）。
  */
 export const ogImage = {
-  url: "/ogp.jpg?v=2",
+  url: "/ogp-shiraishi-2026.jpg",
   width: 1200,
   height: 630,
   type: "image/jpeg",
