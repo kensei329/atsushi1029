@@ -1,46 +1,75 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { heroVideo } from "@/data/hero";
 
-/** ファーストビューのハイライト動画（スマホ＝縦型 / PC＝横型）＋再生位置に連動したキャプション */
+/**
+ * ファーストビューのハイライト動画（スマホ＝縦型 / PC＝横型）。
+ * 音声付き自動再生を試み、ブラウザに止められた場合はミュートで再生して
+ * 訪問者がページに最初に触れた瞬間に音声付きで頭から再生し直す。
+ */
 export function HeroVideo() {
   const ref = useRef<HTMLVideoElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const [src, setSrc] = useState<typeof heroVideo.mobile | null>(null);
-  const [caption, setCaption] = useState(0);
-  const [muted, setMuted] = useState(true);
-  const [reduced, setReduced] = useState(false);
+  const [muted, setMuted] = useState(!heroVideo.hasAudio);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const pick = () => setSrc(mq.matches ? heroVideo.desktop : heroVideo.mobile);
     pick();
     mq.addEventListener("change", pick);
-    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     return () => mq.removeEventListener("change", pick);
   }, []);
 
-  // React の muted 属性は初期値しか反映されないため、DOM プロパティを直接切り替える
+  const playWithSound = useCallback(async (restart: boolean) => {
+    const v = ref.current;
+    if (!v) return false;
+    v.muted = false;
+    v.volume = 0.8;
+    if (restart) v.currentTime = 0;
+    try {
+      await v.play();
+      setMuted(false);
+      return true;
+    } catch {
+      v.muted = true;
+      setMuted(true);
+      void v.play().catch(() => {});
+      return false;
+    }
+  }, []);
+
+  // 音声付きで開始。ブラウザの自動再生制限に掛かったら、最初の操作で音を出す
+  useEffect(() => {
+    if (!src || !heroVideo.hasAudio) return;
+    let done = false;
+    const events = ["pointerdown", "touchend", "click", "keydown"] as const;
+    const cleanup = () => events.forEach((e) => window.removeEventListener(e, onFirstGesture, true));
+    function onFirstGesture(e: Event) {
+      if (done) return;
+      // ミュートボタン自体の操作はボタン側で処理する
+      if (buttonRef.current?.contains(e.target as Node)) return;
+      done = true;
+      cleanup();
+      void playWithSound(true);
+    }
+    void playWithSound(false).then((ok) => {
+      if (ok) done = true;
+      else events.forEach((e) => window.addEventListener(e, onFirstGesture, { capture: true, passive: true }));
+    });
+    return cleanup;
+  }, [src, playWithSound]);
+
   const toggleSound = () => {
     const v = ref.current;
     if (!v) return;
-    const next = !muted;
-    v.muted = next;
-    if (!next) {
-      v.currentTime = 0;
-      v.volume = 0.8;
-      void v.play();
+    if (muted) {
+      void playWithSound(v.currentTime > 1 ? false : true);
+    } else {
+      v.muted = true;
+      setMuted(true);
     }
-    setMuted(next);
-  };
-
-  const onTime = () => {
-    const t = ref.current?.currentTime ?? 0;
-    let idx = 0;
-    heroVideo.captions.forEach((c, i) => {
-      if (t >= c.from) idx = i;
-    });
-    setCaption(idx);
   };
 
   return (
@@ -52,36 +81,27 @@ export function HeroVideo() {
           className="absolute inset-0 size-full object-cover"
           src={src.src}
           poster={src.poster}
-          autoPlay={!reduced}
-          muted={muted}
+          autoPlay
+          muted
           loop
           playsInline
           preload="auto"
-          onTimeUpdate={onTime}
           aria-label="白石篤司 試合ハイライト動画"
         />
       )}
-      <div className="pointer-events-none absolute inset-x-0 top-[18%] flex justify-center px-4 md:top-auto md:bottom-12 md:justify-end md:px-10">
-        <p
-          key={caption}
-          className="animate-caption rounded-sm bg-ink/70 px-4 py-2 text-center text-sm font-black tracking-wider text-white backdrop-blur-sm md:text-lg"
-        >
-          <span className="mr-2 text-aka">●</span>
-          {heroVideo.captions[caption].text}
-        </p>
-      </div>
       {heroVideo.hasAudio && (
-        <button
-          type="button"
-          onClick={toggleSound}
-          className="absolute right-4 top-4 z-10 rounded-full bg-ink/70 px-3 py-2 text-xs font-bold text-white shadow-lg backdrop-blur transition-transform hover:scale-105"
-          aria-pressed={!muted}
-        >
-          {muted ? "🔇 音を出して見る" : "🔊 ミュート"}
-        </button>
-      )}
-      {heroVideo.hasAudio && !muted && (
-        <p className="absolute bottom-2 right-4 z-10 text-[10px] text-white/60">{heroVideo.musicCredit}</p>
+        <>
+          <button
+            ref={buttonRef}
+            type="button"
+            onClick={toggleSound}
+            className="absolute right-4 top-4 z-10 rounded-full bg-ink/70 px-3 py-2 text-xs font-bold text-white shadow-lg backdrop-blur transition-transform hover:scale-105"
+            aria-pressed={!muted}
+          >
+            {muted ? "🔇 タップで音が出ます" : "🔊 ミュート"}
+          </button>
+          <p className="absolute bottom-2 right-4 z-10 text-[10px] text-white/60">{heroVideo.musicCredit}</p>
+        </>
       )}
     </>
   );
