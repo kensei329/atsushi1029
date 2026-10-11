@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { PageHero, SectionTitle } from "@/components/ui";
+import { VideoCard } from "@/components/VideoCard";
 import { gradings, kickboxingCareer } from "@/data/records";
-import { formatDate, getKarateResults } from "@/lib/content";
-import { MoreLink } from "@/components/ui";
+import { formatDate, getKarateResults, getVideos } from "@/lib/content";
 
 export const metadata: Metadata = { title: "戦績" };
 
 export default async function RecordPage() {
-  const results = await getKarateResults();
+  const [results, videos] = await Promise.all([getKarateResults(), getVideos()]);
+  const kickVideos = videos.filter((v) => v.category === "kickboxing");
   return (
     <>
       <PageHero en="RECORD" ja="戦績" lead="空手道復帰後の大会結果・昇段審査、そしてキックボクサー時代の記録。" />
@@ -56,8 +57,10 @@ export default async function RecordPage() {
           <div className="rounded-md bg-ink p-6 text-white md:p-8">
             <p className="text-xs font-black tracking-[0.3em] text-aka">FORMER PRO KICKBOXER</p>
             <p className="mt-3 leading-relaxed text-white/80">{kickboxingCareer.summary}</p>
-            <div className="mt-6 [&_a]:border-white [&_a:hover]:border-aka">
-              <MoreLink href="/videos#kickboxing">キックボクシング時代の映像</MoreLink>
+            <div className="mt-8 grid gap-8 md:grid-cols-2 [&_h3]:text-white [&_p]:text-white/60">
+              {kickVideos.map((v) => (
+                <VideoCard key={v.id} video={v} />
+              ))}
             </div>
           </div>
         </section>

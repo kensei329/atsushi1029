@@ -26,6 +26,7 @@ npm run build
 | `/record` | 空手道の大会結果、昇段審査、キックボクサー時代 |
 | `/profile` | プロフィールと「白石篤司の物語」（第1〜3章） |
 | `/news`, `/news/[slug]` | ニュース一覧・詳細 |
+| `/support` | Karatedo クラウドファンディング（目標・使いみち・リターン） |
 
 スマホ表示では画面下部に固定ナビ（ホーム／試合動画／戦績／プロフィール／ニュース）、PCではヘッダーナビを表示します。
 
@@ -41,8 +42,31 @@ npm run build
 データ取得は `src/lib/content.ts` に集約しているため、microCMS などのヘッドレスCMSを導入する際は
 この関数群を API 呼び出しに置き換えるだけで各ページはそのまま使えます（型は `src/data/types.ts`）。
 
+- クラウドファンディング：`src/data/crowdfunding.ts`（`projectUrl` を設定すると支援ボタンが有効化）
+- ギャラリー写真：`src/data/gallery.ts`（`public/images/gallery/` にファイルを置いたものだけ表示）
+
+## ハイライト動画（ファーストビュー）
+
+赤（AKA）選手＝白石篤司を色検出で自動追尾してズームし、スロー・フラッシュ・カラーグレーディングを加えた
+約30秒の動画を縦型（スマホ用）・横型（PC用）で生成します。
+
+```bash
+pip install opencv-python-headless numpy
+python3 scripts/build_highlight.py 試合1.mp4 試合2.mp4 試合3.mp4 [--bgm 許諾済み音源.mp3]
+```
+
+BGM は Web サイトでの利用が許諾された音源のみ使用してください（市販曲・TV番組のテーマ曲などは不可）。
+BGM を合成したら `src/data/hero.ts` の `hasAudio` を `true` にするとミュート解除ボタンが表示されます。
+
+## favicon / OGP
+
+```bash
+pip install pillow
+python3 scripts/build_brand_assets.py   # src/app/icon.png, apple-icon.png, favicon.ico, opengraph-image.jpg を生成
+```
+
 ## 未確定・今後の追加候補
 
-- キックボクサー時代の詳細戦績（現在は「整理中」表示）
-- 稽古・技（スコーピオンキック等）の動画
-- お問い合わせフォーム、Instagram 等の SNS 連携
+- クラウドファンディングの目標金額・リターン内容（現在は案）と掲載先
+- 稽古・技（スコーピオンキック等）の動画（追加されたカテゴリから自動で表示）
+- ハイライト動画の BGM（利用許諾済み音源）

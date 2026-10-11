@@ -6,7 +6,26 @@
   --color-aka: #d7261e;
   --color-ao: #1d4ed8;
   --color-dogi: #ffffff;
-  --font-sans: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+  --font-sans: var(--font-noto), "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+  --font-display: var(--font-oswald), var(--font-noto), sans-serif;
+  --font-hand: var(--font-klee), var(--font-noto), sans-serif;
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-caption: caption 0.5s ease-out both;
+  --animate-float: float 4s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes caption {
+    from { opacity: 0; transform: translateY(8px) skewX(-6deg); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50% { transform: translateY(-6px) rotate(-3deg); }
+  }
 }
 
 html {
@@ -18,4 +37,11 @@ body {
   background: var(--color-dogi);
   color: var(--color-ink);
   font-feature-settings: "palt";
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

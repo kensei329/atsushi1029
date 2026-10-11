@@ -1,9 +1,14 @@
 import type { Metadata, Viewport } from "next";
+import { Klee_One, Noto_Sans_JP, Oswald } from "next/font/google";
 import Link from "next/link";
 import { BottomNav } from "@/components/BottomNav";
 import { Header } from "@/components/Header";
 import { profile } from "@/data/profile";
 import "./globals.css";
+
+const noto = Noto_Sans_JP({ subsets: ["latin"], weight: ["400", "700", "900"], variable: "--font-noto", display: "swap" });
+const oswald = Oswald({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-oswald", display: "swap" });
+const klee = Klee_One({ subsets: ["latin"], weight: ["600"], variable: "--font-klee", display: "swap", preload: false });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
@@ -17,8 +22,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ja_JP",
     siteName: "白石篤司 40歳からの挑戦",
-    images: ["/images/kumite.jpg"],
   },
+  twitter: { card: "summary_large_image", creator: "@tm040103" },
 };
 
 export const viewport: Viewport = {
@@ -28,7 +33,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
+    <html lang="ja" className={`${noto.variable} ${oswald.variable} ${klee.variable}`}>
       <body className="min-h-dvh antialiased">
         <Header />
         <main className="pb-24 md:pb-0">{children}</main>
@@ -49,6 +54,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </a>
               <Link href="/profile" className="hover:text-white">
                 プロフィール
+              </Link>
+              <Link href="/support" className="hover:text-white">
+                クラウドファンディング
               </Link>
             </div>
             <p className="text-[11px]">© {new Date().getFullYear()} Atsushi Shiraishi</p>

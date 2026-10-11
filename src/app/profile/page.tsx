@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { Gallery } from "@/components/Gallery";
 import { PageHero, SectionTitle } from "@/components/ui";
+import { photos } from "@/data/gallery";
+import { hasPublicFile } from "@/lib/images";
 import { ageAt, profile } from "@/data/profile";
 import { chapters, storyEpilogue } from "@/data/story";
 import { formatDate } from "@/lib/content";
@@ -7,6 +10,7 @@ import { formatDate } from "@/lib/content";
 export const metadata: Metadata = { title: "プロフィール" };
 
 export default function ProfilePage() {
+  const offMat = photos.filter((p) => (p.tag === "仕事" || p.tag === "仲間" || p.tag === "家族") && hasPublicFile(p.src));
   const rows: [string, React.ReactNode][] = [
     ["生年月日", `${formatDate(profile.birthday)}（${ageAt(profile.birthday)}歳）`],
     ["身長", profile.height],
@@ -91,6 +95,13 @@ export default function ProfilePage() {
           </div>
         </div>
       </section>
+
+      {offMat.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-14 md:py-20">
+          <SectionTitle en="ON & OFF" ja="畳の外の素顔" accent="ao" />
+          <Gallery photos={offMat} />
+        </section>
+      )}
     </>
   );
 }

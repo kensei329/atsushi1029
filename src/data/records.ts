@@ -4,7 +4,7 @@ export const karateResults: KarateResult[] = [
   {
     id: "2026-10-11",
     date: "2026-10-11",
-    event: "2026 空手道交流大会",
+    event: "西村祭り",
     division: "一般の部（20歳以上）組手",
     placement: "4位",
     highlight: true,
@@ -18,5 +18,5 @@ export const gradings = [
 
 export const kickboxingCareer = {
   summary:
-    "プロキックボクサーとしてリングに上がる。詳細な戦績は現在整理中です。試合映像は「試合動画」ページでご覧いただけます。",
+    "プロキックボクサーとしてリングに上がり、拳と蹴りで戦ってきた。当時の公式戦績の記録は残っていないが、リングでの姿は映像に刻まれている。",
 };
