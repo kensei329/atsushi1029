@@ -7,7 +7,7 @@ export const photos: Photo[] = [
   { src: "/images/gallery/oyako-selfie.jpg", alt: "道着姿で観客席に座る白石篤司と息子", caption: "観客席で親子ショット", tag: "家族" },
   { src: "/images/gallery/son-peace.jpg", alt: "福岡の道着でピースする息子の創太郎くん", caption: "創太郎、福岡の道着でピース", tag: "家族" },
   { src: "/images/gallery/with-senpai.jpg", alt: "空手大会の会場で大先輩とファイティングポーズ", caption: "空手大会の会場で、大先輩と", tag: "空手" },
-  { src: "/images/gallery/taekwondo-kids.jpg", alt: "テコンドー道場で子どもたちと笑顔の白石篤司", caption: "海外の道場で、子どもたちと", tag: "家族" },
+  { src: "/images/gallery/taekwondo-kids.jpg", alt: "テコンドー道場で息子たちと笑顔の白石篤司", caption: "海外のテコンドー道場で、息子たちと。創太郎の夢はYouTuber！", tag: "家族" },
   { src: "/images/gallery/with-friend.jpg", alt: "夜の屋上で仲間とファイティングポーズ", caption: "仲間とファイティングポーズ", tag: "仲間" },
   { src: "/images/gallery/shiroya.jpg", alt: "田んぼの前で「白屋」の袋を持つ白石篤司と仲間", caption: "「白屋」の仲間と、田んぼの前で", tag: "仲間" },
   { src: "/images/gallery/work-1.jpg", alt: "真剣な表情で話を聞く白石篤司", caption: "仕事の顔も、真剣勝負。", tag: "仕事" },

@@ -3,6 +3,14 @@ import { Marquee } from "@/components/Marquee";
 import { SectionTitle } from "@/components/ui";
 import { crowdfunding as cf } from "@/data/crowdfunding";
 import { profile } from "@/data/profile";
+import { hasPublicFile } from "@/lib/images";
+
+const friends = [
+  { src: "/images/gallery/with-senpai.jpg", caption: "空手の大先輩と", tilt: "-rotate-3" },
+  { src: "/images/gallery/with-friend.jpg", caption: "仲間とファイティングポーズ", tilt: "rotate-2" },
+  { src: "/images/gallery/shiroya.jpg", caption: "「白屋」の仲間と", tilt: "-rotate-1" },
+  { src: "/images/gallery/taekwondo-kids.jpg", caption: "息子たちも応援団！", tilt: "rotate-3" },
+];
 
 export const metadata: Metadata = {
   title: "Karatedo クラウドファンディング",
@@ -80,6 +88,33 @@ export default function SupportPage() {
           </div>
         </div>
       </section>
+
+      {/* Friends */}
+      {friends.some((f) => hasPublicFile(f.src)) && (
+        <section className="relative overflow-hidden bg-[#f6f1e7]">
+          <div
+            className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(var(--color-ink)_1px,transparent_1px)] [background-size:16px_16px]"
+            aria-hidden
+          />
+          <div className="relative mx-auto max-w-6xl px-4 py-14 md:py-20">
+            <SectionTitle en="TEAM SHIRAISHI" ja="いっしょに戦う仲間たち" accent="ao" />
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
+              {friends
+                .filter((f) => hasPublicFile(f.src))
+                .map((f) => (
+                  <li key={f.src} className={`bg-white p-2 pb-3 shadow-[0_6px_20px_rgba(0,0,0,0.15)] transition-transform hover:rotate-0 hover:scale-105 ${f.tilt}`}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={f.src} alt={f.caption} loading="lazy" className="aspect-square w-full object-cover object-top" />
+                    <p className="mt-2 font-hand text-[13px] font-bold">{f.caption}</p>
+                  </li>
+                ))}
+            </ul>
+            <p className="mt-10 text-center text-lg font-black">
+              あなたも <span className="text-aka">TEAM SHIRAISHI</span> の一員に。押忍！
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Uses */}
       <section className="bg-ink/[0.03]">

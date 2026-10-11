@@ -15,9 +15,14 @@ export function SectionTitle({ en, ja, accent = "aka" }: { en: string; ja: strin
   );
 }
 
-export function PageHero({ en, ja, lead }: { en: string; ja: string; lead?: string }) {
+export function PageHero({ en, ja, lead, image }: { en: string; ja: string; lead?: string; image?: string }) {
   return (
     <section className="relative overflow-hidden bg-ink text-white">
+      {image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={image} alt="" className="absolute inset-0 size-full object-cover object-[70%_30%] opacity-45" />
+      )}
+      {image && <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/70 to-ink/10" />}
       <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-aka/40 to-transparent" />
       <div className="relative mx-auto max-w-6xl px-4 py-10 md:py-16">
         <p className="text-xs font-black tracking-[0.35em] text-aka">{en}</p>

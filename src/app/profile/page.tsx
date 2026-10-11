@@ -36,7 +36,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <PageHero en="PROFILE" ja="プロフィール" lead={profile.catchCopy} />
+      <PageHero en="PROFILE" ja="プロフィール" lead={profile.catchCopy} image="/images/gallery/work-1.jpg" />
 
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-[2fr_3fr] md:py-16">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -95,6 +95,25 @@ export default function ProfilePage() {
           </div>
         </div>
       </section>
+
+      {hasPublicFile("/images/gallery/work-2.jpg") && (
+        <section className="relative overflow-hidden bg-ink text-white">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/gallery/work-2.jpg" alt="" className="absolute inset-0 size-full object-cover object-[45%_30%] opacity-50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent md:bg-gradient-to-l md:from-ink md:via-ink/70" />
+          <div className="relative mx-auto flex min-h-[420px] max-w-6xl flex-col justify-end px-4 py-12 md:items-end md:justify-center md:text-right">
+            <p className="font-display text-sm tracking-[0.3em] text-aka">BUSINESS × KARATE</p>
+            <h2 className="mt-2 text-3xl font-black leading-snug md:text-5xl">
+              仕事も、空手も、
+              <br />
+              真剣勝負。
+            </h2>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80">
+              平日はビジネスの現場で仲間と向き合い、稽古では高校生たちと汗を流す。どちらにも全力なのが、白石篤司のスタイルだ。
+            </p>
+          </div>
+        </section>
+      )}
 
       {offMat.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-14 md:py-20">
